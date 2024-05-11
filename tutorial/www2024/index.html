@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Multimodal Pretraining and Generation for Recommendation: A Tutorial</title>
+
+    <style>
+        body {
+            width: 85%;
+            margin: auto;
+            background-color: #f2f2f2;
+            font-size: 16px; /* default 16px */
+        }
+
+        a:link {
+            color: blue;
+        }
+
+        a:visited {
+            color: blue;
+        }
+
+        a:hover {
+            color: orange;
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        td {
+            text-align: left;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            padding-left: 15px;
+            padding-right: 0px;
+        }
+
+        .row {
+            content: "";
+            clear: both;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            padding-bottom: 5px;
+        }
+
+        .column {
+            float: center;
+            width: 15%;
+            padding: 15px;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #ffffff;
+            padding: 15px;
+            margin: 20px;
+        }
+
+        .text-content {
+            text-align: left;
+            margin: 20px;
+            padding: 0 15px 10px 15px;
+        }
+
+        @media only screen and (max-width: 768px) {
+            .row {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+
+            .column {
+                float: left;
+                width: 100%;
+                padding: 0px;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+
+    <meta charset="UTF-8">
+    <meta name="description" content="Multimodal Pretraining and Generation for Recommendation: WWW 2024 Tutorial">
+    <meta name="keywords" content="WWW, multimodal recommendation, multimodal generation">
+    <meta name="author" content="Zhou et al.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+
+<div class="container">
+    <br>
+    <h2>Multimodal Pretraining and Generation for Recommendation</h2>
+    <h2>WWW 2024 Tutorial</i></h2>
+    <h3>13 May 2024, Singapore</h3>
+    <h3>Resorts World Sentosa Convention Centre</h3>
+    <br>
+    <img src="./img/www24_banner.png" alt="WWW2024">
+    <br><br><br>
+</div>
+
+<div class="container">
+    <h2>Tutorial Lecturers</h2>
+
+    <div class="row">
+        <div class="column">
+            <a href="https://jiemingzhu.github.io/">
+                <img src="./img/zhu.jpg" alt="Jieming Zhu">
+                <div>Dr. Jieming Zhu<br>Huawei Noah's Ark Lab</div>
+            </a>
+        </div>
+        <div class="column">
+            <a href="https://wuch15.github.io/">
+                <img src="./img/wu.jpg" alt="Chuhan Wu">
+                <div>Dr. Chuhan Wu<br>Huawei Noah's Ark Lab</div>
+            </a>
+        </div>
+        <div class="column">
+            <a href="https://www.ruizhang.info/">
+                <img src="./img/zhang.jpg" alt="Rui Zhang">
+                <div>Prof. Rui Zhang<br>ruizhang.info</div>
+            </a>
+        </div>
+        <div class="column">
+            <a href="https://scholar.google.com/citations?user=JeePtHEAAAAJ&hl=en">
+                <img src="./img/dong.jpg" alt="Zhenhua Dong">
+                <div>Dr. Zhenhua Dong<br>Huawei Noah's Ark Lab</div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <h2>Overview</h2>
+    <div class="text-content">
+         <p>Personalized recommendation stands as a ubiquitous channel for users to explore information or items aligned with their interests. Nevertheless, prevailing recommendation models predominantly rely on unique IDs and categorical features for user-item matching. While this ID-centric approach has witnessed considerable success, it falls short in comprehensively grasping the essence of raw item contents across diverse modalities, such as text, image, audio, and video. This underutilization of multimodal data poses a limitation to recommender systems, particularly in the realm of multimedia services like news, music, and short-video platforms. The recent surge in pretraining and generation techniques presents both opportunities and challenges in the development of multimodal recommender systems. This tutorial seeks to provide a thorough exploration of the latest advancements and future trajectories in multimodal pretraining and generation techniques within the realm of recommender systems. The tutorial comprises three parts: multimodal pretraining, multimodal generation, and industrial applications and open challenges in the field of recommendation. Our target audience encompasses scholars, practitioners, and other parties interested in this domain. By providing a succinct overview of the field, we aspire to facilitate a swift understanding of multimodal recommendation and foster meaningful discussions on the future development of this evolving landscape.</p>
+    </div>
+</div>
+
+<div class="container">
+    <h2>Schedule</h2>
+    <table align="center">
+        <tr>
+            <td>1:30pm - 1:40pm</td>
+            <td>Opening remarks, by Zhenhua Dong</td>
+        </tr>
+
+        <tr>
+            <td>1:40pm - 2:00pm</td>
+            <td>Ten Challenges in Industrial Recommender Systems, by Zhenhua Dong [<a href="./lecture1_intro.pdf">slides</a>]</td>
+        </tr>
+
+        <tr>
+            <td>2:00pm - 2:45pm</td>
+            <td>Multimodal Pretraining for Recommendation, by Jieming Zhu</a> [<a href="./lecture2_pretraining.pdf">slides</a>]</td>
+        </tr>
+
+        <tr>
+            <td>2:45pm - 3:15pm</td>
+            <td>Coffee break</td>
+        </tr>
+
+        <tr>
+            <td>3:15pm - 4:00pm</td>
+            <td>Multimodal Generation for Recommendation, by Rui Zhang [<a href="./">slides</a>]</td>
+        </tr>
+
+        <tr>
+            <td>4:00pm - 4:45pm</td>
+            <td>Industrial Applications and Open Challenges in Multimodal Recommendation, by Chuhan Wu [<a href="./lecture4_application.pdf">slides</a>]</td>
+        </tr>
+    </table>
+    <br>
+</div>
+
+<!-- <div class="container">
+    <h2>Photos</h2>
+    <h3>Coming soon...</h3>
+</div> -->
+
+<div class="container">
+    <h2>Contact</h2>
+    <div class="text-content">
+        <p>Please contact <a href="https://jiemingzhu.github.io/">Jieming Zhu</a> for general inquiries.</p>
+    </div>
+</div>
+
+<br>
+
+</body>
+</html>
