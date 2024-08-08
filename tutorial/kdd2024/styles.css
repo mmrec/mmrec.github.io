@@ -52,16 +52,16 @@ header {
 nav {
     position: sticky;
     top: 0;
-    background-color: #333;
+    background-color: #444;
     color: #fff;
     z-index: 1000;
 }
 
 nav ul {
     display: flex;
-    justify-content: center;
+    justify-content: left;
     list-style-type: none;
-    padding: 10px 0;
+    padding: 10px 0 10px 20px;
 }
 
 nav ul li {
@@ -71,11 +71,11 @@ nav ul li {
 nav ul li a {
     color: #fff;
     text-decoration: none;
-    padding: 10px 15px;
+    padding: 0 10px;
 }
 
 main {
-    padding: 20px;
+    padding: 30px 40px 20px 40px;
 }
 
 section {
@@ -109,8 +109,8 @@ th, td {
 }
 
 .organizer img {
-    width: 100px; /* Fixed width */
-    height: 100px; /* Fixed height */
+    width: 125px; /* Fixed width */
+    height: 125px; /* Fixed height */
     object-fit: cover; /* Maintain aspect ratio and crop if necessary */
     border-radius: 10%;
     display: block; /* Ensures the image is centered */
