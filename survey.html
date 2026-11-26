@@ -71,16 +71,24 @@
         .hero {
             background:
                 radial-gradient(720px 360px at 78% 0%, rgba(120, 170, 240, 0.30), transparent 62%),
-                linear-gradient(160deg, #1b3260 0%, #26509b 48%, #3670bd 100%);
-            color: #fff; padding: 64px 24px 56px; text-align: center; position: relative; overflow: hidden;
+                linear-gradient(160deg, #25407a 0%, #3163b3 48%, #4183cc 100%);
+            color: #fff; padding: 56px 24px 56px; text-align: center; position: relative; overflow: hidden;
         }
-        .hero-inner { max-width: 760px; margin: 0 auto; position: relative; }
+        .hero::before {
+            content: ""; position: absolute; inset: 0; z-index: 0;
+            background: rgba(33, 125, 187, 0.35);
+        }
+        .hero-inner {
+            max-width: 760px; margin: 0 auto; position: relative; z-index: 1;
+            display: flex; flex-direction: column; align-items: center; gap: 18px;
+        }
+        .hero .pill-link { display: block; text-decoration: none; margin-top: 2px; }
         .hero .pill {
             display: inline-flex; align-items: center; gap: 7px;
             font-size: 12px; font-weight: 600; letter-spacing: 0.06em;
             background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.20);
             border-radius: 999px; padding: 5px 16px; color: #d5ddf7;
-            margin-bottom: 18px;
+            margin: 0;
             backdrop-filter: blur(6px);
             transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
         }
@@ -97,10 +105,15 @@
         }
         .hero h1 {
             font-size: 31px; font-weight: 800; letter-spacing: -0.01em; line-height: 1.25;
-            color: #ffffff; margin-bottom: 16px;
+            color: #ffffff; margin-bottom: 0;
         }
         .hero .authors { font-size: 14px; color: rgba(255,255,255,0.82); margin-bottom: 0; }
-        .hero .authors b { color: rgba(255,255,255,0.82); font-weight: 400; }
+        .hero .authors a {
+            color: inherit; text-decoration: none;
+            border-bottom: 1px dotted rgba(255,255,255,0.40);
+            transition: border-color 0.15s;
+        }
+        .hero .authors a:hover { border-bottom-style: solid; border-color: #ffffff; }
 
         /* ==================== Content ==================== */
         .container { max-width: 800px; margin: 0 auto; padding: 36px 24px 56px; }
@@ -180,7 +193,7 @@
         footer a:hover { color: var(--blue); }
 
         @media (max-width: 640px) {
-            .hero { padding: 44px 20px 40px; }
+            .hero { padding: 40px 20px 40px; }
             .hero h1 { font-size: 24px; }
             .grid-2 { grid-template-columns: 1fr; }
             .navbar .nav-toggle { display: block; }
@@ -201,6 +214,15 @@
 </head>
 <body>
 
+<!-- ==================== Hero ==================== -->
+<header class="hero">
+    <div class="hero-inner">
+        <h1>Multimodal Pretraining, Adaptation, and<br>Generation for Recommendation: A Survey</h1>
+        <p class="authors"><a href="https://liu.qijiong.work">Qijiong Liu</a>, <a href="https://jiemingzhu.github.io">Jieming Zhu</a>, <a href="https://scholar.google.com/citations?hl=zh-CN&amp;user=UXRnnz8AAAAJ">Yanting Yang</a>, <a href="https://scholar.google.com/citations?hl=zh-CN&amp;user=Q1GGOPoAAAAJ">Quanyu Dai</a>, <a href="https://scholar.google.com/citations?user=YYnrPzEAAAAJ&amp;hl=zh-CN&amp;oi=ao">Zhaocheng Du</a>, <a href="https://xiao-ming-wu.github.io/">Xiao-Ming Wu</a>, <a href="https://scholar.google.com/citations?user=IIoFY90AAAAJ&amp;hl=zh-CN">Zhou Zhao</a>, <a href="https://www.ruizhang.info/">Rui Zhang</a>, <a href="https://scholar.google.com/citations?user=JeePtHEAAAAJ&amp;hl=en">Zhenhua Dong</a></p>
+        <a href="https://arxiv.org/pdf/2404.00621" class="pill-link"><div class="pill"><span class="dot"></span>KDD 2024 &middot; Survey Paper</div></a>
+    </div>
+</header>
+
 <!-- ==================== Nav ==================== -->
 <nav class="navbar">
     <div class="navbar-inner">
@@ -217,15 +239,6 @@
         </button>
     </div>
 </nav>
-
-<!-- ==================== Hero ==================== -->
-<header class="hero">
-    <div class="hero-inner">
-        <a href="https://arxiv.org/pdf/2404.00621" style="text-decoration: none;"><div class="pill"><span class="dot"></span>KDD 2024 &middot; Survey Paper</div></a>
-        <h1>Multimodal Pretraining, Adaptation, and<br>Generation for Recommendation: A Survey</h1>
-        <p class="authors">Qijiong Liu, Jieming Zhu, Yanting Yang, Quanyu Dai, Zhaocheng Du, Xiao-Ming Wu, Zhou Zhao, Rui Zhang, Zhenhua Dong</p>
-    </div>
-</header>
 
 <!-- ==================== Content ==================== -->
 <div class="container">
