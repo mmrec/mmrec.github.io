@@ -143,6 +143,44 @@
         }
         .card .btn:hover { color: #fff; background: var(--blue); border-color: var(--blue); }
 
+        /* ==================== Papers ==================== */
+        .paper {
+            position: relative;
+            background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+            padding: 16px 22px; margin-bottom: 10px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+            overflow: hidden;
+        }
+        .paper:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(15,23,42,0.10);
+            border-color: #d1d5db;
+        }
+        .paper::before {
+            content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+            border-radius: 0 4px 4px 0;
+            opacity: 0; transition: opacity 0.2s ease;
+        }
+        .paper:hover::before { opacity: 1; }
+        .paper.kdd::before { background: linear-gradient(to bottom, var(--blue), #60a5fa); }
+        .paper.www::before { background: linear-gradient(to bottom, var(--purple), #a78bfa); }
+        .paper.cikm::before { background: linear-gradient(to bottom, var(--teal), #2dd4bf); }
+        .paper.nips::before, .paper.emnlp::before { background: linear-gradient(to bottom, var(--orange), #fb923c); }
+        .paper .tag { margin-bottom: 8px; }
+        .paper .paper-title {
+            font-size: 15px; font-weight: 700; line-height: 1.5; color: var(--ink); margin-bottom: 6px;
+        }
+        .paper .arrow-hint {
+            position: absolute; right: 16px; bottom: 13px; z-index: 0;
+            font-size: 15px; color: #cbd5e1; transition: color 0.2s, transform 0.2s;
+        }
+        .paper:hover .arrow-hint { color: var(--blue); transform: translate(2px, -2px); }
+        .paper .meta { font-size: 13px; color: var(--muted); line-height: 1.55; padding-right: 22px; }
+        .paper .meta b { font-weight: 650; color: #334155; }
+        .paper .meta sup { font-size: 10px; }
+        .tag.cikm { color: var(--teal); background: var(--teal-50); border: 1px solid var(--teal-light); }
+        .tag.neurips, .tag.emnlp { color: var(--orange); background: var(--orange-50); border: 1px solid var(--orange-light); }
+
         .tag {
             font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
             border-radius: 6px; padding: 3px 10px; display: inline-block; margin-bottom: 14px;
@@ -196,6 +234,7 @@
             <a href="#survey">Survey</a>
             <a href="#tutorials">Tutorials</a>
             <a href="#challenge">Challenge</a>
+            <a href="#papers">Papers</a>
             <a href="https://github.com/reczoo">GitHub</a>
         </div>
     </div>
@@ -229,6 +268,10 @@
                 <span class="tag kdd">KDD 2024</span>
                 <h3>Multimodal Pretraining, Adaptation, and Generation for Recommendation</h3>
                 <div class="meta">Aug 25, 2024 &middot; Barcelona, Spain</div>
+                <div class="meta">Jieming Zhu, Qijiong Liu, Xiao-Ming Wu, Rui Zhang</div>
+                <div class="card-actions">
+                    <a class="btn" href="https://arxiv.org/pdf/2404.00621">Paper</a>
+                </div>
                 <span class="arrow-hint">&#8599;</span>
             </div>
             <div class="card www-card">
@@ -236,7 +279,9 @@
                 <span class="tag www24">WebConf 2024</span>
                 <h3>Multimodal Pretraining and Generation for Recommendation</h3>
                 <div class="meta">May 13, 2024 &middot; Singapore</div>
+                <div class="meta">Jieming Zhu, Zhenhua Dong, Chuhan Wu, Rui Zhang</div>
                 <div class="card-actions">
+                    <a class="btn" href="https://arxiv.org/abs/2405.06927">Abstract</a>
                     <a class="btn" href="https://www.youtube.com/watch?v=Pw1eW0rMzSU">Video</a>
                 </div>
                 <span class="arrow-hint">&#8599;</span>
@@ -256,6 +301,75 @@
                 <a class="btn" href="https://www.codabench.org/competitions/5372/#/results-tab">Leaderboard</a>
                 <a class="btn" href="https://erel-mir.github.io/challenge/results/">Winners</a>
             </div>
+            <span class="arrow-hint">&#8599;</span>
+        </div>
+    </section>
+
+    <!-- Papers -->
+    <section id="papers">
+        <div class="sec-head"><h2>&#128196; Papers</h2></div>
+
+        <div class="paper kdd">
+            <a class="card-link" href="https://dl.acm.org/doi/10.1145/3711896.3737262"></a>
+            <span class="tag kdd">KDD 2025</span>
+            <div class="paper-title">ROMA: Recommendation-Oriented Language Model Adaptation Using Multi-Modal Multi-Domain Item Sequences</div>
+            <div class="meta">Xingyu Lu, Jinpeng Wang, <b>Jieming Zhu</b>, Zhicheng Zhang, Deqing Zou, Hai-Tao Zheng, Shu-Tao Xia, Rui Zhang</div>
+            <span class="arrow-hint">&#8599;</span>
+        </div>
+
+        <div class="paper cikm">
+            <a class="card-link" href="https://dl.acm.org/doi/10.1145/3627673.3680098"></a>
+            <span class="tag cikm">CIKM 2024</span>
+            <div class="paper-title">UniEmbedding: Learning Universal Multi-Modal Multi-Domain Item Embeddings via User-View Contrastive Learning</div>
+            <div class="meta">Boqi Dai, Zhaocheng Du, <b>Jieming Zhu</b><sup>&#9993;</sup>, Jintao Xu, Deqing Zou, Quanyu Dai, Zhenhua Dong, Hai-Tao Zheng, Rui Zhang</div>
+            <span class="arrow-hint">&#8599;</span>
+        </div>
+
+        <div class="paper cikm">
+            <a class="card-link" href="https://dl.acm.org/doi/10.1145/3627673.3680048"></a>
+            <span class="tag cikm">CIKM 2024</span>
+            <div class="paper-title">EASE: Learning Lightweight Semantic Feature Adapters from Large Language Models for CTR Prediction</div>
+            <div class="meta">Zexuan Qiu, <b>Jieming Zhu</b>, Yankai Chen, Guohao Cai, Weiwen Liu, Zhenhua Dong, Irwin King</div>
+            <span class="arrow-hint">&#8599;</span>
+        </div>
+
+        <div class="paper kdd">
+            <a class="card-link" href="https://arxiv.org/abs/2404.00621"></a>
+            <span class="tag kdd">KDD 2024</span>
+            <div class="paper-title">Multimodal Pretraining, Adaptation, and Generation for Recommendation: A Survey</div>
+            <div class="meta">Qijiong Liu, <b>Jieming Zhu</b><sup>&#9993;</sup>, Yanting Yang, Quanyu Dai, Zhaocheng Du, Xiao-Ming Wu, Zhou Zhao, Rui Zhang, Zhenhua Dong</div>
+            <span class="arrow-hint">&#8599;</span>
+        </div>
+
+        <div class="paper www">
+            <a class="card-link" href="https://arxiv.org/abs/2405.06927"></a>
+            <span class="tag www24">WebConf 2024</span>
+            <div class="paper-title">Multimodal Pretraining and Generation for Recommendation: A Tutorial</div>
+            <div class="meta"><b>Jieming Zhu</b>, Chuhan Wu, Rui Zhang, Zhenhua Dong</div>
+            <span class="arrow-hint">&#8599;</span>
+        </div>
+
+        <div class="paper nips">
+            <a class="card-link" href="https://openreview.net/forum?id=6MUgQXkxIC"></a>
+            <span class="tag neurips">NeurIPS 2025</span>
+            <div class="paper-title">Personalized Visual Content Generation in Conversational Systems</div>
+            <div class="meta">Xianquan Wang, Zhaocheng Du, Huibo Xu, Shukang Yin, Yupeng Han, <b>Jieming Zhu</b>, Kai Zhang, Qi Liu</div>
+            <span class="arrow-hint">&#8599;</span>
+        </div>
+
+        <div class="paper emnlp">
+            <a class="card-link" href="https://aclanthology.org/2025.emnlp-main.617"></a>
+            <span class="tag emnlp">EMNLP 2025</span>
+            <div class="paper-title">ICG: Improving Cover Image Generation via MLLM-based Prompting and Personalized Preference Alignment</div>
+            <div class="meta">Zhipeng Bian, <b>Jieming Zhu</b><sup>&#9993;</sup>, Qijiong Liu, Wang Lin, Guohao Cai, Zhaocheng Du, Jiacheng Sun, Zhou Zhao, Zhenhua Dong</div>
+            <span class="arrow-hint">&#8599;</span>
+        </div>
+
+        <div class="paper www">
+            <a class="card-link" href="https://arxiv.org/abs/2404.08677"></a>
+            <span class="tag www24">WebConf 2024</span>
+            <div class="paper-title">PMG: Personalized Multimodal Generation with Large Language Models</div>
+            <div class="meta">Xiaoteng Shen, Rui Zhang, Xiaoyan Zhao, <b>Jieming Zhu</b>, Xi Xiao</div>
             <span class="arrow-hint">&#8599;</span>
         </div>
     </section>
