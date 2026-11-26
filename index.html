@@ -91,6 +91,21 @@
         }
         .navbar .nav-links a:hover { color: var(--blue); background: var(--blue-50); }
 
+        /* Hamburger toggle (mobile only) */
+        .nav-toggle {
+            display: none;
+            background: none; border: none; cursor: pointer;
+            width: 36px; height: 32px; padding: 0;
+        }
+        .nav-toggle span {
+            display: block; width: 22px; height: 2px; border-radius: 2px;
+            background: var(--ink); margin: 5px auto;
+            transition: transform 0.25s ease, opacity 0.25s ease;
+        }
+        .navbar.open .nav-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .navbar.open .nav-toggle span:nth-child(2) { opacity: 0; }
+        .navbar.open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
         /* ==================== Content ==================== */
         .container { max-width: 800px; margin: 0 auto; padding: 36px 24px 56px; }
         section { margin-bottom: 36px; }
@@ -218,7 +233,17 @@
             .hero { padding: 32px 20px 30px; }
             .hero h1 { font-size: 26px; }
             .grid-2 { grid-template-columns: 1fr; }
-            .navbar .nav-links { display: none; }
+            .navbar .nav-toggle { display: block; }
+            .navbar .nav-links {
+                display: none;
+                position: absolute; top: 100%; left: 0; right: 0;
+                flex-direction: column; gap: 0;
+                background: #fff; border-bottom: 1px solid var(--line);
+                padding: 6px 12px 10px;
+                box-shadow: 0 10px 24px rgba(15,23,42,0.10);
+            }
+            .navbar.open .nav-links { display: flex; }
+            .navbar .nav-links a { padding: 11px 14px; }
             .card { padding: 20px 22px; }
             .card .arrow-hint { display: none; }
         }
@@ -237,6 +262,9 @@
             <a href="#papers">Papers</a>
             <a href="https://github.com/reczoo">GitHub</a>
         </div>
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
     </div>
 </nav>
 
@@ -379,6 +407,24 @@
 <footer>
     Maintained by <a href="https://jiemingzhu.github.io/">Jieming Zhu</a> &middot; mmrec.github.io
 </footer>
+
+<script>
+    (function () {
+        var navbar = document.querySelector('.navbar');
+        var toggle = document.querySelector('.nav-toggle');
+        if (!navbar || !toggle) return;
+        toggle.addEventListener('click', function () {
+            var open = navbar.classList.toggle('open');
+            toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+        navbar.querySelectorAll('.nav-links a').forEach(function (a) {
+            a.addEventListener('click', function () {
+                navbar.classList.remove('open');
+                toggle.setAttribute('aria-expanded', 'false');
+            });
+        });
+    })();
+</script>
 
 </body>
 </html>
