@@ -1,7 +1,270 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html> 
-<head> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
-<title>Tutorial: Multimodal Pretraining, Adaptation, and Generation for Recommendation</title> <script src="javascripts/facebox.js" type="text/javascript"></script> <script language="javascript">location.replace("https://mmrec.github.io/tutorial/kdd2024")</script>
-</head> 
-<body></body> 
-</html> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MMRec — Multimodal Recommendation Resources</title>
+    <style>
+        :root {
+            --bg: #f0f2f8;
+            --card: #ffffff;
+            --ink: #161b26;
+            --muted: #6b7280;
+            --line: #e5e7eb;
+            --blue: #2563eb;
+            --blue-light: #dbeafe;
+            --blue-50: #eff6ff;
+            --purple: #7c3aed;
+            --purple-light: #ede9fe;
+            --purple-50: #f5f3ff;
+            --orange: #ea580c;
+            --orange-light: #ffedd5;
+            --orange-50: #fff7ed;
+            --teal: #0d9488;
+            --teal-light: #ccfbf1;
+            --teal-50: #f0fdfa;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+            background: var(--bg); color: var(--ink); line-height: 1.6;
+            min-height: 100vh; -webkit-font-smoothing: antialiased;
+        }
+
+        /* ==================== Hero ==================== */
+        .hero {
+            background:
+                radial-gradient(720px 360px at 78% 0%, rgba(120, 170, 240, 0.30), transparent 62%),
+                linear-gradient(160deg, #1b3260 0%, #26509b 48%, #3670bd 100%);
+            color: #fff; padding: 44px 24px 40px; text-align: center; position: relative; overflow: hidden;
+        }
+        .hero::before { content: none; }
+        .hero::after {
+            content: ""; display: none;
+        }
+        .hero-inner { max-width: 680px; margin: 0 auto; position: relative; }
+        .hero .pill {
+            display: inline-flex; align-items: center; gap: 7px;
+            font-size: 12px; font-weight: 600; letter-spacing: 0.06em;
+            background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.20);
+            border-radius: 999px; padding: 5px 16px; color: #d5ddf7;
+            margin-bottom: 16px;
+            backdrop-filter: blur(6px);
+        }
+        .hero .pill .dot {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: #a5b4fc;
+            box-shadow: 0 0 8px rgba(165,180,252,0.9);
+            animation: blink 2s infinite;
+        }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+        .hero h1 {
+            font-size: 26px; font-weight: 800; letter-spacing: -0.01em; line-height: 1.1;
+        }
+        .hero h1 a {
+            background: linear-gradient(180deg, #ffffff 40%, #a9b8f0 100%);
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+            text-decoration: none;
+        }
+        .hero h1 .sep {
+            color: #8fa3d8; font-weight: 400; padding: 0 14px;
+        }
+
+        /* ==================== Nav ==================== */
+        .navbar {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(255,255,255,0.82); backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--line);
+        }
+        .navbar-inner {
+            max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between;
+            height: 50px; padding: 0 24px;
+        }
+        .navbar .brand { font-size: 15px; letter-spacing: -0.01em; color: var(--ink); text-decoration: none; }
+        .navbar .brand .b { font-weight: 800; }
+        .navbar .brand .n { font-weight: 400; color: var(--muted); }
+        .navbar .nav-links { display: flex; gap: 2px; }
+        .navbar .nav-links a {
+            font-size: 13px; font-weight: 600; color: var(--muted); text-decoration: none;
+            padding: 6px 14px; border-radius: 8px; transition: all 0.15s;
+        }
+        .navbar .nav-links a:hover { color: var(--blue); background: var(--blue-50); }
+
+        /* ==================== Content ==================== */
+        .container { max-width: 800px; margin: 0 auto; padding: 36px 24px 56px; }
+        section { margin-bottom: 36px; }
+        .sec-head {
+            margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+        }
+        .sec-head h2 {
+            font-size: 14px; font-weight: 700; color: #374151;
+        }
+
+        /* ==================== Cards ==================== */
+        .card {
+            position: relative;
+            background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+            padding: 24px 26px; box-shadow: 0 1px 2px rgba(15,23,42,0.04);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+            overflow: hidden;
+        }
+        .card::before {
+            content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+            border-radius: 0 4px 4px 0;
+            opacity: 0; transition: opacity 0.2s ease;
+        }
+        .card.survey-card::before { background: linear-gradient(to bottom, var(--blue), #60a5fa); }
+        .card.kdd-card::before { background: linear-gradient(to bottom, var(--blue), #60a5fa); }
+        .card.www-card::before { background: linear-gradient(to bottom, var(--purple), #a78bfa); }
+        .card.challenge-card::before { background: linear-gradient(to bottom, var(--orange), #fb923c); }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(15,23,42,0.10);
+            border-color: #d1d5db;
+        }
+        .card:hover::before { opacity: 1; }
+
+        .card-link {
+            position: absolute; inset: 0; z-index: 1; border-radius: 14px;
+        }
+
+        .card .card-actions {
+            position: relative; z-index: 2;
+            display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px;
+        }
+        .card .btn {
+            font-size: 12.5px; font-weight: 600;
+            color: #4a5568; background: #fff;
+            border: 1px solid var(--line); border-radius: 8px;
+            padding: 5px 14px; text-decoration: none;
+            transition: all 0.15s;
+        }
+        .card .btn:hover { color: #fff; background: var(--blue); border-color: var(--blue); }
+
+        .tag {
+            font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+            border-radius: 6px; padding: 3px 10px; display: inline-block; margin-bottom: 14px;
+        }
+        .tag.kdd { color: var(--blue); background: var(--blue-50); border: 1px solid var(--blue-light); }
+        .tag.www24 { color: var(--purple); background: var(--purple-50); border: 1px solid var(--purple-light); }
+        .tag.www25 { color: var(--orange); background: var(--orange-50); border: 1px solid var(--orange-light); }
+
+        .card h3 {
+            font-size: 17px; font-weight: 700; line-height: 1.5; margin-bottom: 8px; color: var(--ink);
+        }
+
+        .card .meta {
+            font-size: 13px; color: var(--muted); line-height: 1.55;
+        }
+
+        .card .arrow-hint {
+            position: absolute; right: 22px; bottom: 22px; z-index: 0;
+            font-size: 16px; color: #cbd5e1; transition: color 0.2s, transform 0.2s;
+        }
+        .card:hover .arrow-hint { color: var(--blue); transform: translate(2px, -2px); }
+
+        /* Two-col grid */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--line); padding: 24px; text-align: center;
+            color: #94a3b8; font-size: 13px; background: #fff;
+        }
+        footer a { color: var(--muted); text-decoration: none; font-weight: 500; }
+        footer a:hover { color: var(--blue); }
+
+        @media (max-width: 640px) {
+            .hero { padding: 32px 20px 30px; }
+            .hero h1 { font-size: 26px; }
+            .grid-2 { grid-template-columns: 1fr; }
+            .navbar .nav-links { display: none; }
+            .card { padding: 20px 22px; }
+            .card .arrow-hint { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ==================== Nav ==================== -->
+<nav class="navbar">
+    <div class="navbar-inner">
+        <a href="#" class="brand"><span class="b">MMRec</span><span class="n">  -  Multimodal Recommendation</span></a>
+        <div class="nav-links">
+            <a href="#survey">Survey</a>
+            <a href="#tutorials">Tutorials</a>
+            <a href="#challenge">Challenge</a>
+            <a href="https://github.com/reczoo">GitHub</a>
+        </div>
+    </div>
+</nav>
+
+<!-- ==================== Content ==================== -->
+<div class="container">
+
+    <!-- Survey -->
+    <section id="survey">
+        <div class="sec-head"><h2>&#128209; Survey</h2></div>
+        <div class="card survey-card">
+            <a class="card-link" href="https://arxiv.org/abs/2404.00621"></a>
+            <span class="tag kdd">KDD 2024</span>
+            <h3>Multimodal Pretraining, Adaptation, and Generation for Recommendation: A Survey</h3>
+            <div class="meta">Qijiong Liu, Jieming Zhu, Yanting Yang, Quanyu Dai, Zhaocheng Du, Xiao-Ming Wu, Zhou Zhao, Rui Zhang, Zhenhua Dong &middot; KDD 2024</div>
+            <div class="card-actions">
+                <a class="btn" href="https://arxiv.org/pdf/2404.00621">PDF</a>
+                <a class="btn" href="http://mmrec.github.io/survey">Project</a>
+            </div>
+            <span class="arrow-hint">&#8599;</span>
+        </div>
+    </section>
+
+    <!-- Tutorials -->
+    <section id="tutorials">
+        <div class="sec-head"><h2>&#127891; Tutorials</h2></div>
+        <div class="grid-2">
+            <div class="card kdd-card">
+                <a class="card-link" href="tutorial/kdd2024/"></a>
+                <span class="tag kdd">KDD 2024</span>
+                <h3>Multimodal Pretraining, Adaptation, and Generation for Recommendation</h3>
+                <div class="meta">Aug 25, 2024 &middot; Barcelona, Spain</div>
+                <span class="arrow-hint">&#8599;</span>
+            </div>
+            <div class="card www-card">
+                <a class="card-link" href="tutorial/www2024/"></a>
+                <span class="tag www24">WebConf 2024</span>
+                <h3>Multimodal Pretraining and Generation for Recommendation</h3>
+                <div class="meta">May 13, 2024 &middot; Singapore</div>
+                <div class="card-actions">
+                    <a class="btn" href="https://www.youtube.com/watch?v=Pw1eW0rMzSU">Video</a>
+                </div>
+                <span class="arrow-hint">&#8599;</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Challenge -->
+    <section id="challenge">
+        <div class="sec-head"><h2>&#127942; Challenge</h2></div>
+        <div class="card challenge-card">
+            <a class="card-link" href="https://erel-mir.github.io/challenge/mmctr-track2/"></a>
+            <span class="tag www25">WebConf 2025</span>
+            <h3>MMCTR: The Multimodal CTR Prediction Challenge</h3>
+            <div class="meta">EReL@MIR Workshop</div>
+            <div class="card-actions">
+                <a class="btn" href="https://www.codabench.org/competitions/5372/#/results-tab">Leaderboard</a>
+                <a class="btn" href="https://erel-mir.github.io/challenge/results/">Winners</a>
+            </div>
+            <span class="arrow-hint">&#8599;</span>
+        </div>
+    </section>
+
+</div>
+
+<footer>
+    Maintained by <a href="https://jiemingzhu.github.io/">Jieming Zhu</a> &middot; mmrec.github.io
+</footer>
+
+</body>
+</html>
