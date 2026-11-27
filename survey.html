@@ -4,13 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Multimodal Pretraining, Adaptation, and Generation for Recommendation: A Survey</title>
+    <meta name="description" content="Survey page for MMRec: Multimodal Pretraining, Adaptation, and Generation for Recommendation (KDD 2024), with abstract, figures, highlights, resources, and citation.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #f0f2f8;
+            --bg: #eef1f8;
             --card: #ffffff;
-            --ink: #161b26;
-            --muted: #6b7280;
-            --line: #e5e7eb;
+            --ink: #0f172a;
+            --muted: #64748b;
+            --line: #e6e9f0;
+            --radius: 16px;
+            --shadow-xs: 0 1px 2px rgba(15,23,42,0.05);
+            --shadow-sm: 0 1px 3px rgba(15,23,42,0.05), 0 6px 16px -8px rgba(15,23,42,0.10);
+            --shadow-lg: 0 18px 40px -12px rgba(15,23,42,0.18), 0 4px 12px rgba(15,23,42,0.05);
+            --ease: cubic-bezier(0.2, 0.7, 0.3, 1);
             --blue: #2563eb;
             --blue-light: #dbeafe;
             --blue-50: #eff6ff;
@@ -25,32 +34,53 @@
             --teal-50: #f0fdfa;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
+        html { scroll-behavior: smooth; scroll-padding-top: 72px; }
         body {
-            font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
-            background: var(--bg); color: var(--ink); line-height: 1.6;
+            font-family: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+            background-color: var(--bg);
+            background-image:
+                radial-gradient(900px 480px at 10% -12%, rgba(191, 219, 254, 0.55), transparent 62%),
+                radial-gradient(820px 460px at 92% -6%, rgba(221, 214, 254, 0.45), transparent 60%);
+            background-attachment: fixed;
+            color: var(--ink); line-height: 1.6;
             min-height: 100vh; -webkit-font-smoothing: antialiased;
+        }
+        ::selection { background: #bfdbfe; color: #0f172a; }
+        a:focus-visible, button:focus-visible {
+            outline: 2px solid var(--blue); outline-offset: 3px; border-radius: 6px;
         }
 
         /* ==================== Nav ==================== */
         .navbar {
             position: sticky; top: 0; z-index: 100;
-            background: rgba(255,255,255,0.82); backdrop-filter: blur(14px);
-            border-bottom: 1px solid var(--line);
+            background: rgba(255,255,255,0.80);
+            -webkit-backdrop-filter: saturate(180%) blur(16px);
+            backdrop-filter: saturate(180%) blur(16px);
+            border-bottom: 1px solid rgba(15,23,42,0.06);
         }
         .navbar-inner {
             max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between;
-            height: 50px; padding: 0 24px;
+            height: 56px; padding: 0 24px;
         }
-        .navbar .brand { font-size: 15px; letter-spacing: -0.01em; color: var(--ink); text-decoration: none; }
+        .navbar .brand {
+            display: flex; align-items: center; gap: 9px;
+            font-size: 14.5px; letter-spacing: -0.01em; color: var(--ink); text-decoration: none;
+        }
+        .navbar .brand .logo {
+            display: grid; place-items: center; width: 26px; height: 26px; border-radius: 8px;
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            color: #fff; font-size: 12px; font-weight: 800;
+            box-shadow: 0 4px 10px -4px rgba(37,99,235,0.65);
+        }
         .navbar .brand .b { font-weight: 800; }
-        .navbar .brand .n { font-weight: 800; color: var(--ink); }
+        .navbar .brand .n { font-weight: 400; color: #475569; margin-left: -4px; }
         .navbar .nav-links { display: flex; gap: 2px; }
         .navbar .nav-links a {
+            position: relative;
             font-size: 13px; font-weight: 600; color: var(--muted); text-decoration: none;
-            padding: 6px 14px; border-radius: 8px; transition: all 0.15s;
+            padding: 7px 14px; border-radius: 9px; transition: color 0.15s, background 0.15s;
         }
-        .navbar .nav-links a:hover { color: var(--blue); background: var(--blue-50); }
+        .navbar .nav-links a:hover, .navbar .nav-links a.active { color: var(--blue); background: var(--blue-50); }
 
         /* Hamburger toggle (mobile only) */
         .nav-toggle {
@@ -70,13 +100,10 @@
         /* ==================== Hero ==================== */
         .hero {
             background:
-                radial-gradient(720px 360px at 78% 0%, rgba(120, 170, 240, 0.30), transparent 62%),
-                linear-gradient(160deg, #25407a 0%, #3163b3 48%, #4183cc 100%);
-            color: #fff; padding: 56px 24px 56px; text-align: center; position: relative; overflow: hidden;
-        }
-        .hero::before {
-            content: ""; position: absolute; inset: 0; z-index: 0;
-            background: rgba(33, 125, 187, 0.35);
+                radial-gradient(720px 360px at 80% -10%, rgba(147,197,253,0.35), transparent 62%),
+                radial-gradient(560px 320px at 12% 110%, rgba(129,140,248,0.28), transparent 60%),
+                linear-gradient(160deg, #1c2e5e 0%, #2d55a0 48%, #3b74c4 100%);
+            color: #fff; padding: 64px 24px 60px; text-align: center; position: relative; overflow: hidden;
         }
         .hero-inner {
             max-width: 760px; margin: 0 auto; position: relative; z-index: 1;
@@ -88,12 +115,11 @@
             font-size: 12px; font-weight: 600; letter-spacing: 0.06em;
             background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.20);
             border-radius: 999px; padding: 5px 16px; color: #d5ddf7;
-            margin: 0;
             backdrop-filter: blur(6px);
-            transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+            transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
         }
         .hero .pill:hover {
-            background: #ffffff; color: #1b3260; border-color: #ffffff;
+            background: #ffffff; color: #1b3260; border-color: #ffffff; transform: translateY(-1px);
         }
         .hero .pill .dot {
             width: 6px; height: 6px; border-radius: 50%; background: #a5b4fc;
@@ -104,8 +130,8 @@
             background: #2563eb; box-shadow: 0 0 8px rgba(37,99,235,0.6);
         }
         .hero h1 {
-            font-size: 31px; font-weight: 800; letter-spacing: -0.01em; line-height: 1.25;
-            color: #ffffff; margin-bottom: 0;
+            font-size: 32px; font-weight: 800; letter-spacing: -0.015em; line-height: 1.25;
+            color: #ffffff; margin-bottom: 0; text-wrap: balance;
         }
         .hero .authors { font-size: 14px; color: rgba(255,255,255,0.82); margin-bottom: 0; }
         .hero .authors a {
@@ -116,43 +142,69 @@
         .hero .authors a:hover { border-bottom-style: solid; border-color: #ffffff; }
 
         /* ==================== Content ==================== */
-        .container { max-width: 800px; margin: 0 auto; padding: 36px 24px 56px; }
-        section { margin-bottom: 36px; }
-        .sec-head { margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
-        .sec-head h2 { font-size: 14px; font-weight: 700; color: #374151; }
+        .container { max-width: 800px; margin: 0 auto; padding: 40px 24px 64px; }
+        section { margin-bottom: 44px; scroll-margin-top: 76px; }
+        .sec-head { margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+        .sec-head .sec-icon {
+            display: grid; place-items: center; width: 30px; height: 30px; flex: none;
+            border-radius: 10px; background: #fff; border: 1px solid var(--line);
+            box-shadow: var(--shadow-xs); line-height: 1;
+        }
+        .sec-head .sec-icon svg { width: 16px; height: 16px; display: block; }
+        .sec-head h2 { font-size: 15px; font-weight: 750; color: #1e293b; letter-spacing: 0.01em; }
+        .sec-head .sec-line {
+            flex: 1; height: 1px;
+            background: linear-gradient(90deg, var(--line), rgba(230,233,240,0));
+        }
+        .sec-icon.abstract   { color: var(--blue);   background: var(--blue-50);   border-color: var(--blue-light); }
+        .sec-icon.highlights { color: var(--purple); background: var(--purple-50); border-color: var(--purple-light); }
+        .sec-icon.resources  { color: var(--teal);   background: var(--teal-50);   border-color: var(--teal-light); }
+        .sec-icon.cite       { color: var(--orange); background: var(--orange-50); border-color: var(--orange-light); }
 
         .card {
             position: relative;
-            background: var(--card); border: 1px solid var(--line); border-radius: 14px;
-            padding: 24px 26px; box-shadow: 0 1px 2px rgba(15,23,42,0.04);
-            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+            background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+            padding: 24px 26px; box-shadow: var(--shadow-sm);
+            transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), border-color 0.25s var(--ease);
             overflow: hidden;
         }
-        .tag {
-            font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
-            border-radius: 6px; padding: 3px 10px; display: inline-block; margin-bottom: 14px;
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: #d3d9e4;
         }
+        .tag {
+            position: relative; z-index: 0;
+            display: inline-flex; align-items: center; gap: 6px;
+            font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+            border-radius: 6px; padding: 3px 10px; margin-bottom: 14px;
+        }
+        .tag::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: currentColor; opacity: 0.85; }
         .tag.kdd { color: var(--blue); background: var(--blue-50); border: 1px solid var(--blue-light); }
         .tag.www24 { color: var(--purple); background: var(--purple-50); border: 1px solid var(--purple-light); }
         .tag.cikm { color: var(--teal); background: var(--teal-50); border: 1px solid var(--teal-light); }
         .tag.orange { color: var(--orange); background: var(--orange-50); border: 1px solid var(--orange-light); }
 
-        .card h3 { font-size: 16px; font-weight: 700; line-height: 1.5; margin-bottom: 8px; color: var(--ink); }
+        .card h3 { font-size: 17px; font-weight: 700; line-height: 1.5; margin-bottom: 8px; color: var(--ink); letter-spacing: -0.005em; }
         .card .meta { font-size: 13px; color: var(--muted); line-height: 1.55; }
         .card .meta b { font-weight: 650; color: #334155; }
 
         .card .card-actions {
             position: relative; z-index: 2;
-            display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px;
+            display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px;
         }
         .btn {
             font-size: 12.5px; font-weight: 600;
-            color: #4a5568; background: #fff;
-            border: 1px solid var(--line); border-radius: 8px;
-            padding: 5px 14px; text-decoration: none;
-            transition: all 0.15s;
+            color: #475569; background: #fff;
+            border: 1px solid var(--line); border-radius: 9px;
+            padding: 6px 14px; text-decoration: none;
+            transition: all 0.18s var(--ease);
         }
-        .btn:hover { color: #fff; background: var(--blue); border-color: var(--blue); }
+        .btn:hover {
+            color: #fff; background: linear-gradient(135deg, var(--blue), #4f7ff0);
+            border-color: transparent; transform: translateY(-1px);
+            box-shadow: 0 8px 16px -6px rgba(37,99,235,0.5);
+        }
 
         .abstract-card p { font-size: 14.5px; color: #38404a; }
 
@@ -161,7 +213,11 @@
             display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
             margin-top: 22px; padding-top: 20px; border-top: 1px solid var(--line);
         }
-        .figure-grid figure { text-align: center; margin: 0; }
+        .figure-grid figure {
+            text-align: center; margin: 0;
+            background: #fff; border: 1px solid var(--line); border-radius: 12px;
+            padding: 12px 12px 10px; box-shadow: var(--shadow-xs);
+        }
         .figure-grid img, .figure-grid svg { width: 100%; height: auto; display: block; }
         .figure-grid figcaption { font-size: 12.5px; color: var(--muted); margin-top: 8px; }
         .figure-caption { font-size: 13px; color: var(--muted); text-align: center; margin-top: 14px; }
@@ -169,46 +225,118 @@
         /* Highlight cards */
         .hl-card { border-left: 4px solid transparent; }
         .hl-card::before { content: none; }
-        .hl-card:hover { transform: none; box-shadow: 0 1px 2px rgba(15,23,42,0.04); border-color: var(--line); }
+        .hl-card:hover { transform: none; box-shadow: var(--shadow-sm); border-color: var(--line); }
         .hl-card.blue { border-left-color: var(--blue); }
         .hl-card.purple { border-left-color: var(--purple); }
         .hl-card.orange { border-left-color: var(--orange); }
         .hl-card.teal { border-left-color: var(--teal); }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 
         /* BibTeX */
         .bibtex pre {
-            background: #f6f8fb; border: 1px solid var(--line); border-radius: 10px;
-            padding: 16px 18px; overflow-x: auto;
+            background: #0f172a; border: 1px solid #1e293b; border-radius: 12px;
+            padding: 18px 20px; overflow-x: auto;
             font-family: ui-monospace, "SF Mono", Consolas, "Liberation Mono", monospace;
-            font-size: 12.5px; line-height: 1.65; color: #333;
+            font-size: 12.5px; line-height: 1.65; color: #cbd5e1;
+            box-shadow: var(--shadow-xs);
         }
+
+        /* Reveal animation */
+        .reveal { opacity: 0; transform: translateY(16px); }
+        .reveal.is-visible {
+            opacity: 1; transform: none;
+            transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+        }
+        .card.reveal.is-visible:hover { transform: translateY(-4px); }
 
         /* Footer */
         footer {
-            border-top: 1px solid var(--line); padding: 24px; text-align: center;
-            color: #94a3b8; font-size: 13px; background: #fff;
+            border-top: 1px solid rgba(15,23,42,0.06);
+            background: rgba(255,255,255,0.72);
+            -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+            padding: 28px 24px; text-align: center;
+            color: #94a3b8; font-size: 13px;
         }
-        footer a { color: var(--muted); text-decoration: none; font-weight: 500; }
-        footer a:hover { color: var(--blue); }
+        footer a { color: #64748b; text-decoration: none; font-weight: 600; border-bottom: 1px solid transparent; transition: color 0.15s, border-color 0.15s; }
+        footer a:hover { color: var(--blue); border-bottom-color: currentColor; }
+
+        /* Back to top */
+        .back-to-top {
+            position: fixed; right: 22px; bottom: 22px; z-index: 90;
+            width: 42px; height: 42px; border-radius: 50%; border: none; cursor: pointer;
+            display: grid; place-items: center; font-size: 16px; line-height: 1; color: #fff;
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            box-shadow: 0 10px 24px -8px rgba(37,99,235,0.6);
+            opacity: 0; visibility: hidden; transform: translateY(10px);
+            transition: opacity 0.25s var(--ease), transform 0.25s var(--ease), visibility 0.25s var(--ease);
+        }
+        .back-to-top.show { opacity: 1; visibility: visible; transform: none; }
+        .back-to-top:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -8px rgba(37,99,235,0.7); }
 
         @media (max-width: 640px) {
-            .hero { padding: 40px 20px 40px; }
+            .hero { padding: 44px 20px 44px; }
             .hero h1 { font-size: 24px; }
             .grid-2 { grid-template-columns: 1fr; }
             .navbar .nav-toggle { display: block; }
+            .navbar .brand .n, .navbar .brand .sep { display: none; }
             .navbar .nav-links {
                 display: none;
                 position: absolute; top: 100%; left: 0; right: 0;
                 flex-direction: column; gap: 0;
                 background: #fff; border-bottom: 1px solid var(--line);
                 padding: 6px 12px 10px;
-                box-shadow: 0 10px 24px rgba(15,23,42,0.10);
+                box-shadow: 0 16px 32px rgba(15,23,42,0.12);
             }
             .navbar.open .nav-links { display: flex; }
             .navbar .nav-links a { padding: 11px 14px; }
             .figure-grid { grid-template-columns: 1fr; }
             .card { padding: 20px 22px; }
+            .back-to-top { right: 16px; bottom: 16px; width: 38px; height: 38px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *, *::before, *::after {
+                animation-duration: 0.001ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.001ms !important;
+            }
+            .reveal { opacity: 1; transform: none; }
+        }
+
+        /* ==================== Dark mode ==================== */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #0b1120;
+                --card: #111a2e;
+                --ink: #e6ecf7;
+                --muted: #93a4c0;
+                --line: #1f2a44;
+                --blue-50: #13203f;   --blue-light: rgba(59,130,246,0.35);
+                --purple-50: #1c1538; --purple-light: rgba(139,92,246,0.35);
+                --orange-50: #2a1a0f; --orange-light: rgba(249,115,22,0.35);
+                --teal-50: #0d2622;   --teal-light: rgba(45,212,191,0.30);
+            }
+            body {
+                background-image:
+                    radial-gradient(900px 480px at 10% -12%, rgba(37,99,235,0.20), transparent 62%),
+                    radial-gradient(820px 460px at 92% -6%, rgba(124,58,237,0.16), transparent 60%);
+            }
+            .navbar { background: rgba(11,17,32,0.78); border-bottom-color: rgba(255,255,255,0.06); }
+            .navbar .brand .n, .navbar .brand .sep { color: var(--muted); }
+            .navbar .nav-links { background: var(--card); border-bottom-color: var(--line); box-shadow: 0 16px 32px rgba(0,0,0,0.5); }
+            .sec-head h2 { color: var(--ink); }
+            .sec-head .sec-icon { background: var(--card); border-color: var(--line); }
+            .card:hover { border-color: #2c3a5e; }
+            .card .btn { background: #0f1830; color: #b9c6e0; border-color: #22304f; }
+            .card .meta b { color: #c7d2e8; }
+            .abstract-card p { color: #c3cde0; }
+            .figure-grid figure { background: #0d1526; }
+            .figure-grid svg { background: #fff; border-radius: 8px; }
+            .bibtex pre { background: #0d1526; border-color: #22304f; }
+            footer { background: rgba(11,17,32,0.72); border-top-color: rgba(255,255,255,0.06); color: #7c8ba8; }
+            footer a { color: var(--muted); }
+            ::selection { background: #1e3a8a; color: #e6ecf7; }
         }
     </style>
 </head>
@@ -226,7 +354,7 @@
 <!-- ==================== Nav ==================== -->
 <nav class="navbar">
     <div class="navbar-inner">
-        <a href="survey.html" class="brand"><span class="b">MMRec</span><span class="n"> Survey</span></a>
+        <a href="index.html" class="brand"><span class="logo">M</span><span class="b">MMRec</span><span class="n">Survey</span></a>
         <div class="nav-links">
             <a href="index.html">Home</a>
             <a href="#abstract">Abstract</a>
@@ -245,7 +373,7 @@
 
     <!-- Abstract -->
     <section id="abstract">
-        <div class="sec-head"><h2>&#128209; Abstract</h2></div>
+        <div class="sec-head"><span class="sec-icon abstract"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3v5h5"/><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Z"/><path d="M9 13h6M9 17h4"/></svg></span><h2>Abstract</h2><span class="sec-line"></span></div>
         <div class="card abstract-card">
             <p>Personalized recommendation serves as a ubiquitous channel for users to discover information tailored to their interests. However, traditional recommendation models primarily rely on unique IDs and categorical features for user-item matching, potentially overlooking the nuanced essence of raw item contents across multiple modalities such as text, image, audio, and video. This underutilization of multimodal data poses a limitation to recommender systems, especially in multimedia services like news, music, and short-video platforms. The recent advancements in large multimodal models offer new opportunities and challenges in developing content-aware recommender systems. This survey seeks to provide a comprehensive exploration of the latest advancements and future trajectories in multimodal pretraining, adaptation, and generation techniques, as well as their applications in enhancing recommender systems. Furthermore, we discuss current open challenges and opportunities for future research in this dynamic domain.</p>
             <div class="figure-grid">
@@ -1277,7 +1405,7 @@
 
     <!-- Highlights -->
     <section id="highlights">
-        <div class="sec-head"><h2>&#10024; Highlights</h2></div>
+        <div class="sec-head"><span class="sec-icon highlights"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.9 5.8a2 2 0 0 0 1.3 1.3L21 12l-5.8 1.9a2 2 0 0 0-1.3 1.3L12 21l-1.9-5.8a2 2 0 0 0-1.3-1.3L3 12l5.8-1.9a2 2 0 0 0 1.3-1.3L12 3Z"/><path d="M5 3v4M3 5h4M19 17v4M17 19h4"/></svg></span><h2>Highlights</h2><span class="sec-line"></span></div>
         <div class="grid-2">
             <div class="card hl-card blue">
                 <span class="tag kdd">Pretraining</span>
@@ -1304,11 +1432,11 @@
 
     <!-- Resources -->
     <section id="resources">
-        <div class="sec-head"><h2>&#128279; Resources</h2></div>
+        <div class="sec-head"><span class="sec-icon resources"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg></span><h2>Resources</h2><span class="sec-line"></span></div>
         <div class="card">
             <span class="tag kdd">KDD 2024</span>
             <h3>Multimodal Pretraining, Adaptation, and Generation for Recommendation: A Survey</h3>
-            <div class="meta">Qijiong Liu, <b>Jieming Zhu</b><sup>&#9993;</sup>, Yanting Yang, Quanyu Dai, Zhaocheng Du, Xiao-Ming Wu, Zhou Zhao, Rui Zhang, Zhenhua Dong &middot; KDD 2024</div>
+            <div class="meta">Qijiong Liu, <b>Jieming Zhu</b><sup>&#9993;</sup>, Yanting Yang, Quanyu Dai, Zhaocheng Du, Xiao-Ming Wu, Zhou Zhao, Rui Zhang, Zhenhua Dong</div>
             <div class="card-actions">
                 <a class="btn" href="https://arxiv.org/pdf/2404.00621">PDF</a>
                 <a class="btn" href="https://arxiv.org/html/2404.00621v2">HTML</a>
@@ -1350,7 +1478,7 @@
 
     <!-- Cite -->
     <section id="cite">
-        <div class="sec-head"><h2>&#128218; Citation</h2></div>
+        <div class="sec-head"><span class="sec-icon cite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15Z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg></span><h2>Citation</h2><span class="sec-line"></span></div>
         <div class="card bibtex">
             <pre>@inproceedings{liu2024multimodal,
   author    = {Liu, Qijiong and Zhu, Jieming and Yang, Yanting and Dai, Quanyu and
@@ -1365,6 +1493,8 @@
 
 </div>
 
+<button class="back-to-top" id="backToTop" aria-label="Back to top">&#8593;</button>
+
 <footer>
     <a href="index.html">MMRec</a> &middot; Maintained by <a href="https://jiemingzhu.github.io/">Jieming Zhu</a> &middot; mmrec.github.io
 </footer>
@@ -1373,17 +1503,70 @@
     (function () {
         var navbar = document.querySelector('.navbar');
         var toggle = document.querySelector('.nav-toggle');
-        if (!navbar || !toggle) return;
-        toggle.addEventListener('click', function () {
-            var open = navbar.classList.toggle('open');
-            toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-        });
-        navbar.querySelectorAll('.nav-links a').forEach(function (a) {
-            a.addEventListener('click', function () {
-                navbar.classList.remove('open');
-                toggle.setAttribute('aria-expanded', 'false');
+        if (navbar && toggle) {
+            toggle.addEventListener('click', function () {
+                var open = navbar.classList.toggle('open');
+                toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
             });
-        });
+            navbar.querySelectorAll('.nav-links a').forEach(function (a) {
+                a.addEventListener('click', function () {
+                    navbar.classList.remove('open');
+                    toggle.setAttribute('aria-expanded', 'false');
+                });
+            });
+        }
+
+        var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        // Soft reveal for cards
+        if (!reduceMotion && 'IntersectionObserver' in window) {
+            var revealObserver = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        revealObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+            document.querySelectorAll('.card').forEach(function (el, i) {
+                el.classList.add('reveal');
+                el.style.transitionDelay = (Math.min(i, 6) * 55) + 'ms';
+                revealObserver.observe(el);
+            });
+        }
+
+        // Highlight the nav link of the section in view
+        if ('IntersectionObserver' in window) {
+            var links = Array.prototype.slice.call(document.querySelectorAll('.navbar .nav-links a[href^="#"]'));
+            var sectionObserver = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (!entry.isIntersecting) return;
+                    var id = entry.target.id;
+                    links.forEach(function (a) {
+                        a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+                    });
+                });
+            }, { rootMargin: '-45% 0px -50% 0px' });
+
+            document.querySelectorAll('.container section').forEach(function (s) {
+                sectionObserver.observe(s);
+            });
+        }
+
+        // Back-to-top button
+        var backTop = document.getElementById('backToTop');
+        if (backTop) {
+            var onScroll = function () {
+                if (window.scrollY > 420) backTop.classList.add('show');
+                else backTop.classList.remove('show');
+            };
+            window.addEventListener('scroll', onScroll, { passive: true });
+            onScroll();
+            backTop.addEventListener('click', function () {
+                window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+            });
+        }
     })();
 </script>
 
