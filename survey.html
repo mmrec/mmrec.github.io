@@ -99,23 +99,82 @@
 
         /* ==================== Hero ==================== */
         .hero {
+            position: relative; overflow: hidden; isolation: isolate;
+            color: #fff; text-align: center;
+            padding: 78px 24px 72px;
             background:
-                radial-gradient(720px 360px at 80% -10%, rgba(147,197,253,0.35), transparent 62%),
-                radial-gradient(560px 320px at 12% 110%, rgba(129,140,248,0.28), transparent 60%),
-                linear-gradient(160deg, #1c2e5e 0%, #2d55a0 48%, #3b74c4 100%);
-            color: #fff; padding: 64px 24px 60px; text-align: center; position: relative; overflow: hidden;
+                radial-gradient(1200px 640px at 78% -22%, rgba(56,189,248,0.26), transparent 62%),
+                radial-gradient(900px 520px at 2% -12%, rgba(129,140,248,0.34), transparent 64%),
+                radial-gradient(1000px 620px at 50% 122%, rgba(168,85,247,0.22), transparent 66%),
+                linear-gradient(165deg, #0e1b3c 0%, #172f5e 40%, #1f4a8c 72%, #2a5fad 100%);
+            box-shadow: inset 0 -1px 0 rgba(255,255,255,0.10);
+        }
+        .hero::before {
+            content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.055) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.055) 1px, transparent 1px);
+            background-size: 52px 52px;
+            -webkit-mask-image: radial-gradient(130% 100% at 50% 0%, #000 0%, rgba(0,0,0,0.35) 55%, transparent 82%);
+            mask-image: radial-gradient(130% 100% at 50% 0%, #000 0%, rgba(0,0,0,0.35) 55%, transparent 82%);
+        }
+        .hero::after {
+            content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+            background:
+                radial-gradient(58% 52% at 50% 6%, rgba(255,255,255,0.10), transparent 70%),
+                linear-gradient(180deg, rgba(8,15,34,0) 62%, rgba(8,15,34,0.42) 100%);
+        }
+        .hero-bg { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+        .hero-bg::before {
+            content: ""; position: absolute; left: 50%; bottom: 0; transform: translateX(-50%);
+            width: min(780px, 72%); height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(147,197,253,0.85), rgba(196,181,253,0.85), transparent);
+            box-shadow: 0 0 24px 2px rgba(99,102,241,0.45);
+        }
+        .hero-bg::after {
+            content: ""; position: absolute; inset: 0; opacity: 0.05; mix-blend-mode: overlay;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+        .hero-bg .orb {
+            position: absolute; border-radius: 50%; filter: blur(64px); opacity: 0.65;
+            mix-blend-mode: screen; will-change: transform;
+        }
+        .hero-bg .orb-a {
+            width: 460px; height: 460px; top: -190px; left: -130px;
+            background: radial-gradient(circle at 35% 35%, #6366f1, rgba(99,102,241,0) 68%);
+            animation: heroDrift 20s ease-in-out infinite;
+        }
+        .hero-bg .orb-b {
+            width: 520px; height: 520px; top: -230px; right: -160px;
+            background: radial-gradient(circle at 60% 40%, #22d3ee, rgba(34,211,238,0) 68%);
+            animation: heroDrift 26s ease-in-out -8s infinite reverse;
+        }
+        .hero-bg .orb-c {
+            width: 420px; height: 420px; bottom: -240px; left: 34%;
+            background: radial-gradient(circle at 45% 55%, #a855f7, rgba(168,85,247,0) 70%);
+            animation: heroDrift 24s ease-in-out -4s infinite;
+        }
+        .hero-bg .orb-d {
+            width: 380px; height: 380px; bottom: -220px; right: -120px;
+            background: radial-gradient(circle at 40% 45%, #3b82f6, rgba(59,130,246,0) 70%);
+            opacity: 0.5; animation: heroDrift 22s ease-in-out -12s infinite reverse;
+        }
+        @keyframes heroDrift {
+            0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+            50% { transform: translate3d(28px, 26px, 0) scale(1.08); }
         }
         .hero-inner {
-            max-width: 760px; margin: 0 auto; position: relative; z-index: 1;
+            max-width: 780px; margin: 0 auto; position: relative; z-index: 1;
             display: flex; flex-direction: column; align-items: center; gap: 18px;
         }
         .hero .pill-link { display: block; text-decoration: none; margin-top: 2px; }
         .hero .pill {
             display: inline-flex; align-items: center; gap: 7px;
             font-size: 12px; font-weight: 600; letter-spacing: 0.06em;
-            background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.20);
-            border-radius: 999px; padding: 5px 16px; color: #d5ddf7;
-            backdrop-filter: blur(6px);
+            background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.24);
+            border-radius: 999px; padding: 6px 18px; color: #e2e8fb;
+            box-shadow: 0 8px 26px -14px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.18);
+            backdrop-filter: blur(8px);
             transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
         }
         .hero .pill:hover {
@@ -130,10 +189,14 @@
             background: #2563eb; box-shadow: 0 0 8px rgba(37,99,235,0.6);
         }
         .hero h1 {
-            font-size: 32px; font-weight: 800; letter-spacing: -0.015em; line-height: 1.25;
+            font-size: 34px; font-weight: 800; letter-spacing: -0.015em; line-height: 1.25;
             color: #ffffff; margin-bottom: 0; text-wrap: balance;
+            text-shadow: 0 2px 28px rgba(6,13,32,0.45), 0 1px 2px rgba(6,13,32,0.35);
         }
-        .hero .authors { font-size: 14px; color: rgba(255,255,255,0.82); margin-bottom: 0; }
+        .hero .authors {
+            font-size: 14px; color: rgba(255,255,255,0.84); margin-bottom: 0;
+            max-width: 700px; line-height: 1.75;
+        }
         .hero .authors a {
             color: inherit; text-decoration: none;
             border-bottom: 1px dotted rgba(255,255,255,0.40);
@@ -242,10 +305,10 @@
         }
 
         /* Reveal animation */
-        .reveal { opacity: 0; transform: translateY(16px); }
+        .reveal { opacity: 0; transform: translateY(10px); }
         .reveal.is-visible {
             opacity: 1; transform: none;
-            transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+            transition: opacity 0.28s var(--ease), transform 0.28s var(--ease);
         }
         .card.reveal.is-visible:hover { transform: translateY(-4px); }
 
@@ -274,8 +337,13 @@
         .back-to-top:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -8px rgba(37,99,235,0.7); }
 
         @media (max-width: 640px) {
-            .hero { padding: 44px 20px 44px; }
-            .hero h1 { font-size: 24px; }
+            .hero { padding: 52px 20px 48px; }
+            .hero h1 { font-size: 25px; }
+            .hero .authors { font-size: 13px; }
+            .hero-bg .orb-a { width: 320px; height: 320px; filter: blur(52px); }
+            .hero-bg .orb-b { width: 360px; height: 360px; filter: blur(52px); }
+            .hero-bg .orb-c { width: 300px; height: 300px; filter: blur(52px); }
+            .hero-bg .orb-d { width: 280px; height: 280px; filter: blur(52px); }
             .grid-2 { grid-template-columns: 1fr; }
             .navbar .nav-toggle { display: block; }
             .navbar .brand .n, .navbar .brand .sep { display: none; }
@@ -344,6 +412,12 @@
 
 <!-- ==================== Hero ==================== -->
 <header class="hero">
+    <div class="hero-bg" aria-hidden="true">
+        <span class="orb orb-a"></span>
+        <span class="orb orb-b"></span>
+        <span class="orb orb-c"></span>
+        <span class="orb orb-d"></span>
+    </div>
     <div class="hero-inner">
         <h1>Multimodal Pretraining, Adaptation, and<br>Generation for Recommendation: A Survey</h1>
         <p class="authors"><a href="https://liu.qijiong.work">Qijiong Liu</a>, <a href="https://jiemingzhu.github.io">Jieming Zhu</a>, <a href="https://scholar.google.com/citations?hl=zh-CN&amp;user=UXRnnz8AAAAJ">Yanting Yang</a>, <a href="https://scholar.google.com/citations?hl=zh-CN&amp;user=Q1GGOPoAAAAJ">Quanyu Dai</a>, <a href="https://scholar.google.com/citations?user=YYnrPzEAAAAJ&amp;hl=zh-CN&amp;oi=ao">Zhaocheng Du</a>, <a href="https://xiao-ming-wu.github.io/">Xiao-Ming Wu</a>, <a href="https://scholar.google.com/citations?user=IIoFY90AAAAJ&amp;hl=zh-CN">Zhou Zhao</a>, <a href="https://www.ruizhang.info/">Rui Zhang</a>, <a href="https://scholar.google.com/citations?user=JeePtHEAAAAJ&amp;hl=en">Zhenhua Dong</a></p>
@@ -1531,7 +1605,7 @@
 
             document.querySelectorAll('.card').forEach(function (el, i) {
                 el.classList.add('reveal');
-                el.style.transitionDelay = (Math.min(i, 6) * 55) + 'ms';
+                el.style.transitionDelay = (Math.min(i, 4) * 35) + 'ms';
                 revealObserver.observe(el);
             });
         }

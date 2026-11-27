@@ -262,10 +262,10 @@
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 
         /* Reveal animation */
-        .reveal { opacity: 0; transform: translateY(16px); }
+        .reveal { opacity: 0; transform: translateY(10px); }
         .reveal.is-visible {
             opacity: 1; transform: none;
-            transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+            transition: opacity 0.28s var(--ease), transform 0.28s var(--ease);
         }
         .card.reveal.is-visible:hover { transform: translateY(-5px); }
         .paper.reveal.is-visible:hover { transform: translateY(-4px); }
@@ -561,7 +561,7 @@
 
             document.querySelectorAll('.card, .paper').forEach(function (el, i) {
                 el.classList.add('reveal');
-                el.style.transitionDelay = (Math.min(i, 6) * 55) + 'ms';
+                el.style.transitionDelay = (Math.min(i, 4) * 35) + 'ms';
                 revealObserver.observe(el);
             });
         }
